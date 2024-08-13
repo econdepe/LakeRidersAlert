@@ -15,10 +15,10 @@ def extract_calendar_entries(browser):
                 Names of the participants of the session, separated by commas.
                 If a session has been cancelled, the name used is 'CANCELLED'
                 E.g.: 'Bond J., Norbert E., CANCELLED, CANCELLED'
-    ''' 
+    '''
     calendar_entries = {}
-    
-    
+
+
     for row in rows:
         for i, entry in enumerate(row):
             # Entries have the format '18:00 Bond J.'
