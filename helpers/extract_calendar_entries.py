@@ -1,5 +1,6 @@
-from . import constants
 from selenium.webdriver.common.by import By
+
+from .. import constants
 
 def extract_calendar_entries(browser):
     table_body = browser.find_element(By.CLASS_NAME, 'fc-body')
