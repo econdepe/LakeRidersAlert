@@ -15,7 +15,7 @@ def extract_calendar_entries(browser):
             * value: str.
                 Names of the participants of the session, separated by commas.
                 If a session has been cancelled, the name used is 'CANCELLED'
-                E.g.: 'Bond J., Norbert E., CANCELLED, CANCELLED'
+                E.g.: 'Bond J.,Norbert E.,CANCELLED,CANCELLED'
     '''
     calendar_entries = {}
 
@@ -30,6 +30,6 @@ def extract_calendar_entries(browser):
             date = week_dates[i]
             datetime = f"{date}T{time}:00"
             if datetime in calendar_entries:
-                calendar_entries[datetime] += f", {name}"
+                calendar_entries[datetime] += f",{name}"
             else:
                 calendar_entries[datetime] = name
