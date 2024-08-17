@@ -14,3 +14,10 @@ This is a Python script that scrapes the website of LakeRiders Geneva to search 
 ## PREREQUISITES
 
 The scraper currently uses Selenium WebDriver to drive a headless Chrome browser. While the Selenium package can be installed with pip (see './requirements.txt'), Chrome and ChromeDriver are native and require a platform-dependent install.
+
+## RUNNING TESTS
+
+From the root directory:
+```
+python -m unittest discover -vt ..
+```
