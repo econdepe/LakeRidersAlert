@@ -33,6 +33,3 @@ class TestCountSlotsAvailable(unittest.TestCase):
         new_members = 'FREE,FREE,FREE,FREE'
         old_members = 'Robin H.,William T.,FREE,FREE'
         self.assertEqual(count_slots_available(new_members, old_members), 2)
-
-if __name__ == '__main__':
-    unittest.main()
