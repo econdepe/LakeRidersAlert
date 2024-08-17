@@ -13,7 +13,29 @@ This is a Python script that scrapes the website of LakeRiders Geneva to search 
 
 ## PREREQUISITES
 
+To run the script, a series of "secrets" are needed. Namely you need:
+* An account at LakeRiders Geneva, characterized by an email and a password
+* A Telegram bot, characterized by a bot token.
+* A chat with the Telegram bot, characterized by a chat id. One way of obtaining the chat id is by running
+```
+curl curl https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+```
+The chat id is available in the response.
+
+You have to make the secrets available as env variables. One possibility is to write an .env file
+```
+export LOGIN_EMAIL=<YOUR_LOGIN_EMAIL>
+export LOGIN_PASSWORD=<YOUR_LOGIN_PASSWORD>
+export BOT_TOKEN=<YOUR_BOT_TOKEN>
+export CHAT_ID=<YOUR_CHAT_ID>
+```
+and then run
+```
+source .env
+```
+
 The scraper currently uses Selenium WebDriver to drive a headless Chrome browser. While the Selenium package can be installed with pip (see './requirements.txt'), Chrome and ChromeDriver are native and require a platform-dependent install.
+
 
 ## RUNNING TESTS
 

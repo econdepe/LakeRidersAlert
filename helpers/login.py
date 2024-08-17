@@ -1,14 +1,11 @@
-from getpass import getpass
 from selenium.webdriver import Chrome
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
 
-def login():
-    # Ask user for credentials
-    print('Please enter your member credentials:')
-    email = input('Email address: ')
-    password = getpass()
+from .. import LOGIN_EMAIL as email
+from .. import LOGIN_PASSWORD as password
 
+def login():
     # Set headless browser
     options = ChromeOptions()
     options.add_argument('--headless=new')
