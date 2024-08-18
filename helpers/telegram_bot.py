@@ -2,8 +2,7 @@ from datetime import datetime
 
 import requests
 
-from .. import BOT_TOKEN as token
-from .. import CHAT_ID as chat_id
+from ..constants import BOT_TOKEN as token, CHAT_ID as chat_id
 
 
 def _format_day_(weekday):

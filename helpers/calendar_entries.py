@@ -2,7 +2,7 @@ import sqlite3
 
 from selenium.webdriver.common.by import By
 
-from .. import constants
+from ..constants import CANCELLED, FREE, DB_NAME
 
 
 
@@ -19,7 +19,8 @@ def extract_calendar_entries(browser):
             * value: str.
                 Names of the participants of the session, separated by commas.
                 If a session has been cancelled, the name used is 'CANCELLED'
-                E.g.: 'Bond J.,Norbert E.,CANCELLED,CANCELLED'
+                If a session is free, the name used is 'FREE
+                E.g.: 'Bond J.,Norbert E.,FREE,CANCELLED'
     '''
     calendar_entries = {}
 
@@ -30,9 +31,9 @@ def extract_calendar_entries(browser):
             time = entry[:5]
             name = entry[6:]
             if name == 'Session annulée':
-                name = constants.CANCELLED
+                name = CANCELLED
             elif name == 'Place disponible':
-                name = constants.FREE
+                name = FREE
             date = week_dates[i]
             datetime = f"{date}T{time}:00"
             if datetime in calendar_entries:
@@ -77,14 +78,14 @@ def write_calendar_entries_to_db(calendar_entries):
     cursor.close()
 
 def count_slots_available(new_members: str, old_members: str) -> int:
-    new_free_slots = new_members.count(constants.FREE)
-    old_free_slots = old_members.count(constants.FREE)
+    new_free_slots = new_members.count(FREE)
+    old_free_slots = old_members.count(FREE)
 
     return max(new_free_slots - old_free_slots, 0)
 
 
 def find_available_slots(calendar_entries):
-    conn = sqlite3.connect(f"{constants.DB_NAME}")
+    conn = sqlite3.connect(f"{DB_NAME}")
     cursor = conn.cursor()
 
     result = {}

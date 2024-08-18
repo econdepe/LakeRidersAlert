@@ -1,9 +1,7 @@
-from selenium.webdriver import Chrome
-from selenium.webdriver import ChromeOptions
+from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 
-from .. import LOGIN_EMAIL as email
-from .. import LOGIN_PASSWORD as password
+from ..constants import LOGIN_EMAIL as email, LOGIN_PASSWORD as password
 
 def login():
     # Set headless browser
