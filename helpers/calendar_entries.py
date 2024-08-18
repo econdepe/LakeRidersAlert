@@ -84,10 +84,11 @@ def count_slots_available(new_members: str, old_members: str) -> int:
 
 
 def find_available_slots(calendar_entries):
-    conn = sqlite3.connect(f"wake_alert.db")
+    conn = sqlite3.connect(f"{constants.DB_NAME}")
     cursor = conn.cursor()
 
     result = {}
+    has_available_slots = False
 
     for datetime in calendar_entries:
         cursor.execute('''
@@ -98,6 +99,9 @@ def find_available_slots(calendar_entries):
         old_members = cursor.fetchone()[0]
 
         if (count := count_slots_available(calendar_entries[datetime], old_members)):
+            has_available_slots = True
             result[datetime] = count
 
     cursor.close()
+
+    return result if has_available_slots else None
