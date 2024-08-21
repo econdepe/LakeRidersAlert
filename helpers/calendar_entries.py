@@ -5,7 +5,6 @@ from selenium.webdriver.common.by import By
 from ..constants import CANCELLED, FREE, DB_NAME
 
 
-
 def extract_calendar_entries(browser):
     table_body = browser.find_element(By.CLASS_NAME, 'fc-body')
     week_dates = [table_body.find_element(By.CLASS_NAME, f"fc-{day}").get_attribute('data-date') for day in ['mon', 'tue', 'wed', 'thu', 'fri']]
@@ -23,8 +22,6 @@ def extract_calendar_entries(browser):
                 E.g.: 'Bond J.,Norbert E.,FREE,CANCELLED'
     '''
     calendar_entries = {}
-
-
     for row in rows:
         for i, entry in enumerate(row):
             # Entries have the format '18:00 Bond J.'
@@ -42,15 +39,8 @@ def extract_calendar_entries(browser):
                 calendar_entries[datetime] = name
 
 def write_calendar_entries_to_db(calendar_entries):
-    conn = sqlite3.connect(f"wake_alert.db")
+    conn = sqlite3.connect(f"{DB_NAME}")
     cursor = conn.cursor()
-
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS calendar(
-            datetime TEXT
-            , members TEXT
-        )
-    ''')
 
     for datetime in calendar_entries:
         cursor.execute('''
@@ -75,7 +65,7 @@ def write_calendar_entries_to_db(calendar_entries):
             ''', (calendar_entries[datetime], datetime))
 
     conn.commit()
-    cursor.close()
+    conn.close()
 
 def count_slots_available(new_members: str, old_members: str) -> int:
     new_free_slots = new_members.count(FREE)
@@ -97,12 +87,18 @@ def find_available_slots(calendar_entries):
             FROM calendar
             WHERE datetime = ?
         ''', (datetime,))
-        old_members = cursor.fetchone()[0]
+        old_members_entry = cursor.fetchone()
+
+        if old_members_entry == None:
+            # The DB hasn't been populated for this datetime.
+            continue
+        else:
+            old_members = old_members_entry[0]
 
         if (count := count_slots_available(calendar_entries[datetime], old_members)):
             has_available_slots = True
             result[datetime] = count
 
-    cursor.close()
+    conn.close()
 
     return result if has_available_slots else None
