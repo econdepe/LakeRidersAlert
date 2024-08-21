@@ -29,7 +29,7 @@ def _format_n_slots_(n):
     else:
         return f"{n} slots"
 
-def send_message(available_slots):
+def notify_to_telegram(available_slots):
     text = '*** NEW SLOTS AVAILABLE! ***'
 
     # format slot info as [weekday, time, count]. Sort it by weekday and time

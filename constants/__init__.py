@@ -1,5 +1,4 @@
 import os
-import sqlite3
 
 POLLING_INTERVAL = 120.0
 CANCELLED = 'CANCELLED'
