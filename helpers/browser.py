@@ -3,16 +3,13 @@ from selenium.webdriver.common.by import By
 
 from ..constants import LOGIN_EMAIL as email, LOGIN_PASSWORD as password
 
-def login():
-    # Set headless browser
+def create_browser():
     options = ChromeOptions()
     options.add_argument('--headless=new')
-    browser = Chrome(options=options)
 
-    # Navigate to Lake Riders home page
-    browser.get('https://lakeridersclub.ch/index.php')
+    return Chrome(options=options)
 
-    # Login
+def login(browser):
     email_input = browser.find_element(By.ID, 'mon_compte_adresse_electronique')
     password_input = browser.find_element(By.ID, 'mon_compte_mot_de_passe')
     stay_connected_checkbox = browser.find_element(By.ID, 'rester_connecte')
@@ -22,6 +19,14 @@ def login():
     password_input.send_keys(password)
     stay_connected_checkbox.click()
     submit_button.click()
+
+def navigate_to_calendar(browser):
+    # Navigate to Lake Riders home page
+    browser.get('https://lakeridersclub.ch/membres/reservations.php')
+
+    # Check if logged in; if not, log in
+    if browser.current_url == 'https://lakeridersclub.ch/index.php':
+        login(browser)
 
     # Return browser session with user logged in
     return browser
