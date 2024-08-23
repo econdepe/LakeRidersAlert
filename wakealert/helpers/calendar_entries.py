@@ -108,6 +108,6 @@ def find_available_slots(calendar_entries):
     conn.close()
 
     if RUN_WITH_LOGS:
-        print('* Nothing changed :(' if has_available_slots is False else '* Available slots found! :D')
+        print('* No new slots available :(' if has_available_slots is False else '* Available slots found! :D')
 
     return result if has_available_slots else None
