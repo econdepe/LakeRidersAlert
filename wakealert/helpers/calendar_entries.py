@@ -38,6 +38,8 @@ def extract_calendar_entries(browser):
             else:
                 calendar_entries[datetime] = name
 
+    return calendar_entries
+
 def write_calendar_entries_to_db(calendar_entries):
     conn = sqlite3.connect(f"{DB_NAME}")
     cursor = conn.cursor()
