@@ -32,7 +32,7 @@ def run_once_conditionally(browser=None):
     if now.hour >= 7 and now.weekday() < 5:
         return run_once(browser)
     else:
-        return None
+        return browser
 
 def run_in_loop():
     browser = run_once_conditionally()
