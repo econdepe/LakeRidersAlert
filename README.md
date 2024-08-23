@@ -41,5 +41,5 @@ The scraper currently uses Selenium WebDriver to drive a headless Chrome browser
 
 From the root directory:
 ```
-python -m unittest discover -vt ..
+python -m unittest discover
 ```
