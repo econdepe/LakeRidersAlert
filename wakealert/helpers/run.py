@@ -11,18 +11,16 @@ def run_once(browser=None):
     if RUN_WITH_LOGS:
         print('Crawling lakeriders calendar...')
 
-    if browser is None:
-        if RUN_WITH_LOGS:
-            print('* Creating browser session')
+    browser_session = create_browser() if browser is None else browser
+    navigate_to_calendar(browser_session)
 
-        browser = create_browser()
-    navigate_to_calendar(browser)
-
-    calendar_entries = extract_calendar_entries(browser)
+    calendar_entries = extract_calendar_entries(browser_session)
     available_slots = find_available_slots(calendar_entries)
     if available_slots is not None:
         notify_to_telegram(available_slots)
     write_calendar_entries_to_db(calendar_entries)
+
+    return browser_session
 
 '''
     Polling should be run only between 7am and midnight during weekdays
@@ -30,9 +28,12 @@ def run_once(browser=None):
 def run_once_conditionally(browser=None):
     now = datetime.now(ZoneInfo('Europe/Zurich'))
     if now.hour >= 7 and now.weekday() < 6:
-        run_once(browser)
+        return run_once(browser)
+    else:
+        return None
 
 def run_in_loop():
-    run_once_conditionally()
-    t = Timer(POLLING_INTERVAL, run_once_conditionally)
+    browser = run_once_conditionally()
+    while True:
+        t = Timer(POLLING_INTERVAL, run_once_conditionally, [browser])
     t.start()

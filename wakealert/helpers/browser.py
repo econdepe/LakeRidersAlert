@@ -4,6 +4,9 @@ from selenium.webdriver.common.by import By
 from ..constants import LOGIN_EMAIL as email, LOGIN_PASSWORD as password, RUN_WITH_LOGS
 
 def create_browser():
+    if RUN_WITH_LOGS:
+        print('* Creating browser session')
+
     options = ChromeOptions()
     options.add_argument('--headless=new')
 
