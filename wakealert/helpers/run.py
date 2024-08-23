@@ -19,7 +19,7 @@ def run_once(browser=None):
     write_calendar_entries_to_db(calendar_entries)
 
 '''
-    Polling should be run only between 7 and midnight during weekdays
+    Polling should be run only between 7am and midnight during weekdays
 '''
 def run_once_conditionally(browser=None):
     now = datetime.now(ZoneInfo('Europe/Zurich'))
