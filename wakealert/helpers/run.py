@@ -9,7 +9,8 @@ from ..helpers.telegram_bot import notify_to_telegram
 
 def run_once(browser=None):
     if RUN_WITH_LOGS:
-        print('Crawling lakeriders calendar...')
+        message = f"Crawling lakeriders calendar on {datetime.now().strftime('%d %b, %H:%M')}"
+        print(f"{'-'*len(message)}\n{message}\n...\n..\n.")
 
     browser_session = create_browser() if browser is None else browser
     navigate_to_calendar(browser_session)
