@@ -1,5 +1,5 @@
 from datetime import datetime
-from threading import Timer
+from time import sleep
 from zoneinfo import ZoneInfo
 
 from ..constants import POLLING_INTERVAL, RUN_WITH_LOGS
@@ -20,6 +20,7 @@ def run_once(browser=None):
         notify_to_telegram(available_slots)
     write_calendar_entries_to_db(calendar_entries)
 
+    sleep(POLLING_INTERVAL)
     return browser_session
 
 '''
@@ -35,5 +36,4 @@ def run_once_conditionally(browser=None):
 def run_in_loop():
     browser = run_once_conditionally()
     while True:
-        t = Timer(POLLING_INTERVAL, run_once_conditionally, [browser])
-    t.start()
+        run_once_conditionally(browser)
