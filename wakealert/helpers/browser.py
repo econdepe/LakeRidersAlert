@@ -27,10 +27,10 @@ def login(browser):
     submit_button.click()
 
 def navigate_to_calendar(browser):
-    # Navigate to Lake Riders home page
+    # Navigate to Lake Riders reservations page
     browser.get('https://lakeridersclub.ch/membres/reservations.php')
 
-    # Check if logged in; if not, log in
+    # When the user is not logged in, they get redirected to the home page
     if browser.current_url == 'https://lakeridersclub.ch/index.php':
         login(browser)
 
