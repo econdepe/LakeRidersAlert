@@ -29,7 +29,7 @@ def run_once(browser=None):
 '''
 def run_once_conditionally(browser=None):
     now = datetime.now(ZoneInfo('Europe/Zurich'))
-    if now.hour >= 7 and now.weekday() < 6:
+    if now.hour >= 7 and now.weekday() < 5:
         return run_once(browser)
     else:
         return None
