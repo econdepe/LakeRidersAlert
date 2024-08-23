@@ -47,6 +47,8 @@ Or you can run the executable in `/bin`
 ./bin/launch_wakealert.sh
 ```
 
+If you want Wake Alert to print messages in the console, set the environment variable `RUN_WITH_LOGS` to a truthy value before starting the script.
+
 ## RUNNING TESTS
 
 From the root directory:

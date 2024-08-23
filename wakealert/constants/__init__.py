@@ -5,6 +5,8 @@ CANCELLED = 'CANCELLED'
 FREE = 'FREE'
 DB_NAME = 'wake_alert.db'
 
+RUN_WITH_LOGS = bool(os.environ.get('RUN_WITH_LOGS'))
+
 # Secrets
 BOT_TOKEN = os.environ.get('BOT_TOKEN')
 CHAT_ID = os.environ.get('CHAT_ID')

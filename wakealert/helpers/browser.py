@@ -1,7 +1,7 @@
 from selenium.webdriver import Chrome, ChromeOptions
 from selenium.webdriver.common.by import By
 
-from ..constants import LOGIN_EMAIL as email, LOGIN_PASSWORD as password
+from ..constants import LOGIN_EMAIL as email, LOGIN_PASSWORD as password, RUN_WITH_LOGS
 
 def create_browser():
     options = ChromeOptions()
@@ -10,6 +10,9 @@ def create_browser():
     return Chrome(options=options)
 
 def login(browser):
+    if RUN_WITH_LOGS:
+        print('* Authenticating...')
+
     email_input = browser.find_element(By.ID, 'mon_compte_adresse_electronique')
     password_input = browser.find_element(By.ID, 'mon_compte_mot_de_passe')
     stay_connected_checkbox = browser.find_element(By.ID, 'rester_connecte')

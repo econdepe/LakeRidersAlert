@@ -2,13 +2,19 @@ from datetime import datetime
 from threading import Timer
 from zoneinfo import ZoneInfo
 
-from ..constants import POLLING_INTERVAL
+from ..constants import POLLING_INTERVAL, RUN_WITH_LOGS
 from ..helpers.browser import create_browser, navigate_to_calendar
 from ..helpers.calendar_entries import extract_calendar_entries, find_available_slots, write_calendar_entries_to_db
 from ..helpers.telegram_bot import notify_to_telegram
 
 def run_once(browser=None):
+    if RUN_WITH_LOGS:
+        print('Crawling lakeriders calendar...')
+
     if browser is None:
+        if RUN_WITH_LOGS:
+            print('* Creating browser session')
+
         browser = create_browser()
     navigate_to_calendar(browser)
 

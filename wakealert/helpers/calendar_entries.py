@@ -2,7 +2,7 @@ import sqlite3
 
 from selenium.webdriver.common.by import By
 
-from ..constants import CANCELLED, FREE, DB_NAME
+from ..constants import CANCELLED, FREE, DB_NAME, RUN_WITH_LOGS
 
 
 def extract_calendar_entries(browser):
@@ -37,6 +37,10 @@ def extract_calendar_entries(browser):
                 calendar_entries[datetime] += f",{name}"
             else:
                 calendar_entries[datetime] = name
+
+    if RUN_WITH_LOGS:
+        print('* * Crawling result:')
+        print(calendar_entries)
 
     return calendar_entries
 
@@ -102,5 +106,8 @@ def find_available_slots(calendar_entries):
             result[datetime] = count
 
     conn.close()
+
+    if RUN_WITH_LOGS:
+        print('* Nothing changed :(' if has_available_slots is False else '* Available slots found! :D')
 
     return result if has_available_slots else None
