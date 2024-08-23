@@ -18,7 +18,7 @@ To run the script, a series of "secrets" are needed. Namely you need:
 * A Telegram bot, characterized by a bot token.
 * A chat with the Telegram bot, characterized by a chat id. One way of obtaining the chat id is by running
 ```
-curl curl https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
+curl https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 The chat id is available in the response.
 
