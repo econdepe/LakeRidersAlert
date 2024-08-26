@@ -4,26 +4,16 @@ import requests
 
 from ..constants import BOT_TOKEN as token, CHAT_ID as chat_id
 
+'''
+    Sort slots dictionary ({ datetime: count }) by weekday and time.
+    Format them as [weekday, time, count]
+'''
+def sort_and_format_slots(slots):
+    sorted_datetimes = sorted([(datetime.fromisoformat(dt), count) for dt, count in slots.items()], key=lambda x: [x[0].weekday(), x[0].hour])
 
-def _format_day_(weekday):
-    if weekday == 0:
-        return 'Monday'
-    elif weekday == 1:
-        return 'Tuesday'
-    elif weekday == 2:
-        return 'Wednesday'
-    elif weekday == 3:
-        return 'Thursday'
-    elif weekday == 4:
-        return 'Friday'
-    elif weekday == 5:
-        return 'Saturday'
-    elif weekday == 6:
-        return 'Sunday'
-    else:
-        raise Exception('Unknown weekday value')
+    return [[dt.strftime('%A'), dt.hour, count] for dt, count in sorted_datetimes]
 
-def _format_n_slots_(n):
+def _format_n_slots_text_(n):
     if n == 1:
         return '1 slot'
     else:
@@ -32,11 +22,12 @@ def _format_n_slots_(n):
 def notify_to_telegram(available_slots):
     text = '*** NEW SLOTS AVAILABLE! ***'
 
-    # format slot info as [weekday, time, count]. Sort it by weekday and time
-    sorted_slots = sorted([[(dt := datetime.fromisoformat(x[0])).weekday(), dt.hour, x[1]] for x in available_slots.items()])
+    # Format slot info as [weekday, time, count]. Sort slots by weekday and time
 
-    for [weekday, time, count] in sorted_slots:
-        text += f"\n{_format_n_slots_(count)} available at {time} on {_format_day_(weekday)}"
+    formatted_slots = sort_and_format_slots(available_slots)
+
+    for [day, time, count] in formatted_slots:
+        text += f"\n{_format_n_slots_text_(count)} available at {time} on {day}"
 
     requests.post(
         url=f"https://api.telegram.org/bot{token}/sendMessage",

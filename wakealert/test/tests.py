@@ -1,6 +1,7 @@
 import unittest
 
 from ..helpers.calendar_entries import count_slots_available
+from ..helpers.telegram_bot import sort_and_format_slots
 
 class TestCountSlotsAvailable(unittest.TestCase):
 
@@ -33,3 +34,18 @@ class TestCountSlotsAvailable(unittest.TestCase):
         new_members = 'FREE,FREE,FREE,FREE'
         old_members = 'Robin H.,William T.,FREE,FREE'
         self.assertEqual(count_slots_available(new_members, old_members), 2)
+
+class TestSortAndFormatSlots(unittest.TestCase):
+
+    def test_sort_as_expected(self):
+        slots = {
+            '2024-08-16T18:00:00': 3,
+            '2024-08-12T19:00:00': 2,
+            '2024-08-12T18:00:00': 1
+        }
+        expected = [
+            ['Monday', 18, 1],
+            ['Monday', 19, 2],
+            ['Friday', 18, 3]
+        ]
+        self.assertEqual(sort_and_format_slots(slots), expected)
