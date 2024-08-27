@@ -3,5 +3,6 @@
 wakealert/test/html/
 
 .env
+internal_notes.txt
 *.pyc
 *.db
