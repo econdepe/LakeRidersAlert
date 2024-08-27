@@ -1,9 +1,10 @@
-import unittest
+from unittest import TestCase
+from datetime import datetime
 
 from ..helpers.calendar_entries import count_slots_available
 from ..helpers.telegram_bot import sort_and_format_slots
 
-class TestCountSlotsAvailable(unittest.TestCase):
+class TestCountSlotsAvailable(TestCase):
 
     def test_count_one_when_full(self):
         new_members = 'Agatha C.,William T.,Robin H.,FREE'
@@ -35,17 +36,20 @@ class TestCountSlotsAvailable(unittest.TestCase):
         old_members = 'Robin H.,William T.,FREE,FREE'
         self.assertEqual(count_slots_available(new_members, old_members), 2)
 
-class TestSortAndFormatSlots(unittest.TestCase):
+class TestSortAndFormatSlots(TestCase):
 
     def test_sort_as_expected(self):
-        slots = {
-            '2024-08-16T18:00:00': 3,
-            '2024-08-12T19:00:00': 2,
-            '2024-08-12T18:00:00': 1
-        }
-        expected = [
-            ['Monday', 18, 1],
-            ['Monday', 19, 2],
-            ['Friday', 18, 3]
-        ]
-        self.assertEqual(sort_and_format_slots(slots), expected)
+            slots = {
+                '2024-08-16T18:00:00': 3,
+                '2024-08-20T20:00:00': 1,
+                '2024-08-12T19:00:00': 2,
+                '2024-08-12T18:00:00': 1
+            }
+            mocked_now = datetime.fromisoformat('2024-08-16T18:00:00')
+            expected = [
+                [0, 'Monday', 18, 1],
+                [0, 'Monday', 19, 2],
+                [0, 'Friday', 18, 3],
+                [1, 'Tuesday', 20, 1]
+            ]
+            self.assertEqual(sort_and_format_slots(slots, mocked_now), expected)

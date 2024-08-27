@@ -34,5 +34,5 @@ def navigate_to_calendar(browser):
     if browser.current_url == 'https://lakeridersclub.ch/index.php':
         login(browser)
 
-    # Return browser session with user logged in
-    return browser
+def navigate_to_next_week(browser):
+    browser.find_element(By.XPATH, '//button[text()="Suivant"]').click()

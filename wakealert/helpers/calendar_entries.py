@@ -38,10 +38,6 @@ def extract_calendar_entries(browser):
             else:
                 calendar_entries[datetime] = name
 
-    if RUN_WITH_LOGS:
-        print('* * Crawling result:')
-        print(calendar_entries)
-
     return calendar_entries
 
 def write_calendar_entries_to_db(calendar_entries):
