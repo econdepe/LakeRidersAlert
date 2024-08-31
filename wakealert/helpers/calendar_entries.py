@@ -6,12 +6,15 @@ from ..constants import CANCELLED, FREE, DB_NAME, RUN_WITH_LOGS
 
 
 def extract_calendar_entries(browser):
-    table_body = browser.find_element(By.CLASS_NAME, 'fc-body')
-    week_dates = [table_body.find_element(By.CLASS_NAME, f"fc-{day}").get_attribute('data-date') for day in ['mon', 'tue', 'wed', 'thu', 'fri']]
-    grid = table_body.find_element(By.CLASS_NAME, 'fc-content-skeleton')
-    rows = [row.text.split('\n') for row in grid.find_elements(By.TAG_NAME, 'tr')]
+    table_body = browser.find_element(By.CLASS_NAME, "fc-body")
+    week_dates = [
+        table_body.find_element(By.CLASS_NAME, f"fc-{day}").get_attribute("data-date")
+        for day in ["mon", "tue", "wed", "thu", "fri"]
+    ]
+    grid = table_body.find_element(By.CLASS_NAME, "fc-content-skeleton")
+    rows = [row.text.split("\n") for row in grid.find_elements(By.TAG_NAME, "tr")]
 
-    '''
+    """
         We store the calendar entries in a dictionary { [key]: value }, where:
             * key: str
                 Date + time of the session in ISO format. E.g.: '2024-08-12T18:00:00'
@@ -20,16 +23,16 @@ def extract_calendar_entries(browser):
                 If a session has been cancelled, the name used is 'CANCELLED'
                 If a session is free, the name used is 'FREE
                 E.g.: 'Bond J.,Norbert E.,FREE,CANCELLED'
-    '''
+    """
     calendar_entries = {}
     for row in rows:
         for i, entry in enumerate(row):
             # Entries have the format '18:00 Bond J.'
             time = entry[:5]
             name = entry[6:]
-            if name == 'Session annulée':
+            if name == "Session annulée":
                 name = CANCELLED
-            elif name == 'Place disponible':
+            elif name == "Place disponible":
                 name = FREE
             date = week_dates[i]
             datetime = f"{date}T{time}:00"
@@ -40,34 +43,45 @@ def extract_calendar_entries(browser):
 
     return calendar_entries
 
+
 def write_calendar_entries_to_db(calendar_entries):
     conn = sqlite3.connect(f"{DB_NAME}")
     cursor = conn.cursor()
 
     for datetime in calendar_entries:
-        cursor.execute('''
+        cursor.execute(
+            """
             SELECT members
             FROM calendar
             WHERE datetime = ?
-        ''', (datetime,))
+        """,
+            (datetime,),
+        )
         old_members_array = cursor.fetchall()
 
         if len(old_members_array) == 0:
             # No previous entry exists
-            cursor.execute('''
+            cursor.execute(
+                """
                 INSERT INTO calendar (datetime, members)
                 VALUES (?, ?)
-            ''', (datetime, calendar_entries[datetime]))
+            """,
+                (datetime, calendar_entries[datetime]),
+            )
         else:
             # Overwrite previous entry
-            cursor.execute('''
+            cursor.execute(
+                """
                 UPDATE calendar
                 SET members = ?
                 WHERE datetime = ?
-            ''', (calendar_entries[datetime], datetime))
+            """,
+                (calendar_entries[datetime], datetime),
+            )
 
     conn.commit()
     conn.close()
+
 
 def count_slots_available(new_members: str, old_members: str) -> int:
     new_free_slots = new_members.count(FREE)
@@ -84,26 +98,33 @@ def find_available_slots(calendar_entries):
     has_available_slots = False
 
     for datetime in calendar_entries:
-        cursor.execute('''
+        cursor.execute(
+            """
             SELECT members
             FROM calendar
             WHERE datetime = ?
-        ''', (datetime,))
+        """,
+            (datetime,),
+        )
         old_members_entry = cursor.fetchone()
 
-        if old_members_entry == None:
+        if old_members_entry is None:
             # The DB hasn't been populated for this datetime.
             continue
         else:
             old_members = old_members_entry[0]
 
-        if (count := count_slots_available(calendar_entries[datetime], old_members)):
+        if count := count_slots_available(calendar_entries[datetime], old_members):
             has_available_slots = True
             result[datetime] = count
 
     conn.close()
 
     if RUN_WITH_LOGS:
-        print('* No new slots available :(' if has_available_slots is False else '* Available slots found! :D')
+        print(
+            "* No new slots available :("
+            if has_available_slots is False
+            else "* Available slots found! :D"
+        )
 
     return result if has_available_slots else None
