@@ -2,7 +2,7 @@ from datetime import datetime
 from time import sleep
 from zoneinfo import ZoneInfo
 
-from ..constants import POLLING_INTERVAL, RUN_WITH_LOGS
+from ..constants import POLLING_INTERVAL
 from ..helpers.web import (
     create_browser_session,
     get_reservations_html,
@@ -16,12 +16,6 @@ from ..helpers.telegram_bot import notify_to_telegram
 
 
 def run_once(session=None):
-    if RUN_WITH_LOGS:
-        message = (
-            f"Crawling lakeriders calendar on {datetime.now().strftime('%d %b, %H:%M')}"
-        )
-        print(f"{'-'*len(message)}\n{message}\n...\n..\n.")
-
     browser_session = create_browser_session() if session is None else session
     html = get_reservations_html(browser_session)
 

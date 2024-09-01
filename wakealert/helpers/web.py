@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from requests import Session
 
 from ..constants import LOGIN_EMAIL, LOGIN_PASSWORD, RUN_WITH_LOGS
@@ -8,6 +10,8 @@ CALENDAR_PAGE = "https://lakeridersclub.ch/membres/reservations.php"
 
 
 def create_browser_session():
+    if RUN_WITH_LOGS:
+        print("Creating browser session")
     session = Session()
     session.get(HOME_PAGE)
     return session
@@ -28,12 +32,22 @@ def get_session_authorized(session):
     )
 
 
+def _print_crawling_log():
+    if RUN_WITH_LOGS:
+        message = (
+            f"Crawling lakeriders calendar on {datetime.now().strftime('%d %b, %H:%M')}"
+        )
+        print(f"{'-'*len(message)}\n{message}\n...\n..\n.")
+
+
 def get_reservations_html(session):
     response = session.get(CALENDAR_PAGE)
     if response.url == HOME_PAGE:
         # The session is not authenticated. Re-authenticate
         get_session_authorized(session)
         authenticated_response = session.get(CALENDAR_PAGE)
+        _print_crawling_log()
         return authenticated_response.text
     else:
+        _print_crawling_log()
         return response.text
