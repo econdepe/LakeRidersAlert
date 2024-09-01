@@ -1,104 +1,192 @@
-rows = [
-    [
-        "18:00 Annelise L.",
-        "18:00 Jimmy T.",
-        "18:00 Camille D.",
-        "18:00 Clement G.",
-        "18:00 Eve H.",
-    ],
-    [
-        "18:00 Badis A.",
-        "18:00 Joey L.",
-        "18:00 Kinny V.",
-        "18:00 Donatelle E.",
-        "18:00 Nathan B.",
-    ],
-    [
-        "18:00 Julien F.",
-        "18:00 Quentin M.",
-        "18:00 Nuno D.",
-        "18:00 SÃ©bastien V.",
-        "18:00 Ramzi C.",
-    ],
-    [
-        "18:00 Louis Simon V.",
-        "18:00 Thomas M.",
-        "18:00 Pierre P.",
-        "18:00 Sarah R.",
-        "18:00 Yves D.",
-    ],
-    [
-        "19:00 Damien B.",
-        "19:00 Carmelo F.",
-        "19:00 Marina M.",
-        "19:00 Charles G.",
-        "19:00 Ambroise J.",
-    ],
-    [
-        "19:00 Julien T.",
-        "19:00 Nassim A.",
-        "19:00 Min Ng",
-        "19:00 Edouard L.",
-        "19:00 Anne-Sophie M.",
-    ],
-    [
-        "19:00 Juliette F.",
-        "19:00 Oxann T.",
-        "19:00 Timo V.",
-        "19:00 Lea M.",
-        "19:00 Laurence B.",
-    ],
-    [
-        "19:00 Rebecca W.",
-        "19:00 Richard V.",
-        "19:00 Vianney A.",
-        "19:00 Silke C.",
-        "19:00 Mathilde B.",
-    ],
-    [
-        "20:00 Alexia R.",
-        "20:00 Audrey L.",
-        "20:00 Konstantinos V.",
-        "20:00 Daniel M.",
-        "20:00 Juliette F.",
-    ],
-    [
-        "20:00 Laurent R R.",
-        "20:00 Boudin de lâ\x80\x99arche C.",
-        "20:00 Noe S.",
-        "20:00 Julie P.",
-        "20:00 Mathias C.",
-    ],
-    [
-        "20:00 Nathalie R.",
-        "20:00 Margarida N.",
-        "20:00 Session annulée",
-        "20:00 Marine G.",
-        "20:00 Session annulée",
-    ],
-    [
-        "20:00 Session annulée",
-        "20:00 Session annulée",
-        "20:00 Yoann M.",
-        "20:00 Session annulée",
-        "20:00 Virginie B.",
-    ],
-]
+html = '''
+<!DOCTYPE html>
+<html>
+	<head>
+	
+		<meta charset="UTF-8">
+
+<title>Lake Riders Club</title>
+
+<meta name="description" xml:lang="fr" content="Lake Riders Club, club dédié au sport nautique sur le lac Léman" lang="fr" />
+<meta name="keywords" xml:lang="fr" content="wakeboards, wakesurf, wakeskate, Sport nautique, Lac Léman, Genève, Suisse, Lake Riders Club" lang="fr" />
+
+<meta name="viewport" content="initial-scale=1.0" />
+
+<link rel="shortcut icon" href="/favicon.ico" />	
+<link rel="stylesheet" href="/css/styles.css" media="all" />
+<link rel="stylesheet" href="/js/fancybox/jquery.fancybox.css" type="text/css" media="screen" />
+<link rel="stylesheet" href="/js/fancybox/jquery.fancybox-thumbs.css" type="text/css" media="screen" />
+
+
+<script type="text/javascript" src="/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.easing.1.3.js"></script>
+<script type="text/javascript" src="/js/jquery-validate/jquery.validate.js"></script>
+<script type="text/javascript" src="/js/jquery-validate/methods.js"></script>
+<script type="text/javascript" src="/js/jquery-validate/localization/messages_fr.js"></script>
+<script type="text/javascript" src="/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/js/fancybox/jquery.fancybox.js"></script>
+<script type="text/javascript" src="/js/fancybox/jquery.fancybox-thumbs.js"></script>
+<script type="text/javascript" src="/js/fancybox/jquery.fancybox-media.js"></script>
+<script type="text/javascript" src="/js/jquery.parallax-scroll.js"></script>
+<script type="text/javascript" src="/js/communs.js"></script>
+
+<script>
+	
+	var dateNow = "2024-08-31";
+	
+
+	$(document).ready(function() {
+		
+		function renderCalendar() {
+			$('#calendar').fullCalendar({
+				header: {
+					left: 'prev,next today',
+					center: 'title',
+					right: 'basicWeek,basicDay'
+				},
+				defaultDate: dateNow,
+				defaultView: 'basicWeek',
+				lang: 'fr',
+				height: 'auto',
+				minTime: '18:00:00',
+				maxTime:'21:00:00',
+				allDaySlot: false,
+				buttonIcons: true, // show the prev/next text
+				weekNumbers: false,
+				editable: false,
+				eventLimit: false, // allow "more" link when too many events
+				timeFormat: 'H:mm',
+				slotEventOverlap: false,
+				weekends: false,
+                                viewRender: function(currentView){
+                                    var minDate = moment();
+                                    if (minDate >= currentView.start && minDate <= currentView.end) {
+                                        $(".fc-prev-button").prop('disabled', true); 
+                                        $(".fc-prev-button").addClass('fc-state-disabled'); 
+                                    }
+                                    else {
+                                        $(".fc-prev-button").removeClass('fc-state-disabled'); 
+                                        $(".fc-prev-button").prop('disabled', false); 
+                                    }
+
+                                },
+				events: [
+																				{
+						title: ' ',
+						start: '2024-06-03T18:00:00',
+						end: '2024-06-03T19:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par  '
+											},
+																				{
+						title: 'Legolas L.',
+						start: '2024-06-03T18:00:00',
+						end: '2024-06-03T19:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Legolas L.'
+											},
+																				{
+						title: 'Gimli G.',
+						start: '2024-06-03T18:00:00',
+						end: '2024-06-03T19:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Gimli G.'
+											},
+																				{
+						title: 'Aragorn A.',
+						start: '2024-06-03T18:00:00',
+						end: '2024-06-03T19:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Aragorn A.'
+											},
+																														{
+						title: 'Gandalf G.',
+						start: '2024-06-03T19:00:00',
+						end: '2024-06-03T20:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Gandalf G.'
+											},
+																				{
+                        title: 'Place disponible',
+												color: '#82BCF3',
+												url: '?reserver=44036',
+						start: '2024-06-03T19:00:00',
+						end: '2024-06-03T20:00:00',
+						description: 'Cliquez pour réserver entre 19:00 et 20:00'
+											},
+																				{
+						title: 'Sam S.',
+						start: '2024-06-03T19:00:00',
+						end: '2024-06-03T20:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Sam S.'
+											},
+																				{
+                        title: 'Place disponible',
+												color: '#82BCF3',
+												url: '?reserver=44036',
+						start: '2024-06-03T19:00:00',
+						end: '2024-06-03T20:00:00',
+						description: 'Cliquez pour réserver entre 19:00 et 20:00'
+											},
+																														{
+						title: 'Frodo F.',
+						start: '2024-06-03T20:00:00',
+						end: '2024-06-03T21:00:00',
+												color: '#D3D3D3',
+						description: 'Reservé par Frodo F.'
+											},
+																				{
+						title: 'Place disponible',
+												color: '#82BCF3',
+												url: '?reserver=44036',
+						start: '2024-06-03T20:00:00',
+						end: '2024-06-03T21:00:00',
+						description: 'Cliquez pour réserver entre 20:00 et 21:00'
+											},
+																				{
+						title: 'Session annulée',
+						color: '#BF0000',
+						start: '2024-06-03T20:00:00',
+						end: '2024-06-03T21:00:00',
+						description: 'La session est annulée.'
+											},
+																				{
+						title: 'Session annulée',
+						color: '#BF0000',
+						start: '2024-06-03T20:00:00',
+						end: '2024-06-03T21:00:00',
+						description: 'La session est annulée.'
+											},
+																														]
+				eventRender: function(event, element) {
+					element.qtip({
+						content: event.description,
+						 position: {
+							 target: 'mouse', // Track the mouse as the positioning target
+							 adjust: { x: 5, y: 5 } // Offset it slightly from under the mouse
+						 }
+					});
+				}
+			});
+		}
+
+		renderCalendar();
+	});
+
+</script>
+</footer>			
+			<a href="#" id="btn_up">
+				<img alt="Retour" title="Retour" src="/images/communs/top.png" />
+			</a>
+			
+	</body>
+</html>						
+'''
 
 calendar_entries_dict = {
-    "2024-08-12T18:00:00": "Annelise L.,Badis A.,Julien F.,Louis Simon V.",
-    "2024-08-13T18:00:00": "Jimmy T.,Joey L.,Quentin M.,Thomas M.",
-    "2024-08-14T18:00:00": "Camille D.,Kinny V.,Nuno D.,Pierre P.",
-    "2024-08-15T18:00:00": "Clement G.,Donatelle E.,SÃ©bastien V.,Sarah R.",
-    "2024-08-16T18:00:00": "Eve H.,Nathan B.,Ramzi C.,Yves D.",
-    "2024-08-12T19:00:00": "Damien B.,Julien T.,Juliette F.,Rebecca W.",
-    "2024-08-13T19:00:00": "Carmelo F.,Nassim A.,Oxann T.,Richard V.",
-    "2024-08-14T19:00:00": "Marina M.,Min Ng,Timo V.,Vianney A.",
-    "2024-08-15T19:00:00": "Charles G.,Edouard L.,Lea M.,Silke C.",
-    "2024-08-16T19:00:00": "Ambroise J.,Anne-Sophie M.,Laurence B.,Mathilde B.",
-    "2024-08-12T20:00:00": "Alexia R.,Laurent R R.,Nathalie R.,CANCELLED",
-    "2024-08-13T20:00:00": "Audrey L.,Boudin de lâ\x80\x99arche C.,Margarida N.,CANCELLED",
-    "2024-08-14T20:00:00": "Konstantinos V.,Noe S.,CANCELLED,Yoann M.",
-    "2024-08-15T20:00:00": "Daniel M.,Julie P.,Marine G.,CANCELLED",
-    "2024-08-16T20:00:00": "Juliette F.,Mathias C.,CANCELLED,Virginie B.",
+    "2024-06-03T18:00:00": "EMPTY,Legolas L.,Gimli G.,Aragorn A.",
+    "2024-06-03T19:00:00": "Gandalf G.,FREE,Sam S.,FREE",
+    "2024-06-03T20:00:00": "Frodo F.,FREE,CANCELLED,CANCELLED",
 }

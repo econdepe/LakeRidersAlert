@@ -1,18 +1,14 @@
 import sqlite3
+import re
 
-from selenium.webdriver.common.by import By
-
-from ..constants import CANCELLED, FREE, DB_NAME, RUN_WITH_LOGS
+from ..constants import CANCELLED, FREE, EMPTY, DB_NAME, RUN_WITH_LOGS
 
 
-def extract_calendar_entries(browser):
-    table_body = browser.find_element(By.CLASS_NAME, "fc-body")
-    week_dates = [
-        table_body.find_element(By.CLASS_NAME, f"fc-{day}").get_attribute("data-date")
-        for day in ["mon", "tue", "wed", "thu", "fri"]
-    ]
-    grid = table_body.find_element(By.CLASS_NAME, "fc-content-skeleton")
-    rows = [row.text.split("\n") for row in grid.find_elements(By.TAG_NAME, "tr")]
+def extract_calendar_entries(html):
+    # Extract events from the HTML response
+    events_text = re.search(r"events\: \[(.*)\]", html, re.DOTALL).group(1)
+    trimmed_text = re.sub(r"\n|\t", "", events_text)
+    events = re.findall(r"\{.*?\}", trimmed_text)
 
     """
         We store the calendar entries in a dictionary { [key]: value }, where:
@@ -25,21 +21,24 @@ def extract_calendar_entries(browser):
                 E.g.: 'Bond J.,Norbert E.,FREE,CANCELLED'
     """
     calendar_entries = {}
-    for row in rows:
-        for i, entry in enumerate(row):
-            # Entries have the format '18:00 Bond J.'
-            time = entry[:5]
-            name = entry[6:]
-            if name == "Session annulée":
-                name = CANCELLED
-            elif name == "Place disponible":
-                name = FREE
-            date = week_dates[i]
-            datetime = f"{date}T{time}:00"
-            if datetime in calendar_entries:
-                calendar_entries[datetime] += f",{name}"
-            else:
-                calendar_entries[datetime] = name
+    for event in events:
+        # Events have the formats:
+        #   "{title: 'Bond J.',start: '2024-06-03T18:00:00',end: '2024-06-03T19:00:00',color: '#D3D3D3',description: 'Reservé par Bond J.'}"
+        #   "{title: ' ',start: '2024-06-03T18:00:00',end: '2024-06-03T19:00:00',color: '#D3D3D3',description: 'Reservé par  '}"
+        #   "{title: 'Place disponible',color: '#82BCF3',url: '?reserver=43966',start: '2024-09-18T19:00:00',end: '2024-09-18T20:00:00',description: 'Cliquez pour réserver entre 19:00 et 20:00'}"
+        #   "{title: 'Session annulée',color: '#BF0000',start: '2024-09-18T20:00:00',end: '2024-09-18T21:00:00',description: 'La session est annulée.'}"
+        name = re.search("title: '(.*?)'", event).group(1)
+        if name == "Session annulée":
+            name = CANCELLED
+        elif name == "Place disponible":
+            name = FREE
+        elif name == " ":
+            name = EMPTY
+        datetime = re.search("start: '(.*?)'", event).group(1)
+        if datetime in calendar_entries:
+            calendar_entries[datetime] += f",{name}"
+        else:
+            calendar_entries[datetime] = name
 
     return calendar_entries
 

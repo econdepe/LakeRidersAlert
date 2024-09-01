@@ -1,9 +1,14 @@
 from unittest import TestCase
 from datetime import datetime
 
-from ..helpers.calendar_entries import count_slots_available
+from ..helpers.calendar_entries import extract_calendar_entries, count_slots_available
 from ..helpers.telegram_bot import sort_and_format_slots
+from .test_data import html as test_html, calendar_entries_dict as test_calendar_entries
 
+
+class TestExtractCalendarEntries(TestCase):
+    def test_extract_calendar_entries_all_cases(self):
+        self.assertEqual(extract_calendar_entries(test_html), test_calendar_entries)
 
 class TestCountSlotsAvailable(TestCase):
     def test_count_one_when_full(self):

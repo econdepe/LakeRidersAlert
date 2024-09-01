@@ -23,14 +23,14 @@ def sort_and_format_slots(slots, now=None):
     ]
 
 
-def _format_n_slots_text_(n):
+def _format_n_slots_text(n):
     if n == 1:
         return "1 slot"
     else:
         return f"{n} slots"
 
 
-def _format_week_text_(n):
+def _format_week_text(n):
     if n == 0:
         return "this week"
     else:
@@ -45,7 +45,7 @@ def notify_to_telegram(available_slots):
     formatted_slots = sort_and_format_slots(available_slots)
 
     for [plus_week, day, time, count] in formatted_slots:
-        text += f"\n{_format_n_slots_text_(count)} available at {time} on {day} {_format_week_text_(plus_week)}"
+        text += f"\n{_format_n_slots_text(count)} available at {time} on {day} {_format_week_text(plus_week)}"
 
     requests.post(
         url=f"https://api.telegram.org/bot{token}/sendMessage",
