@@ -73,11 +73,11 @@ html = '''
                                 },
 				events: [
 																				{
-						title: 'Bond J.',
+						title: ' ',
 						start: '2024-06-03T18:00:00',
 						end: '2024-06-03T19:00:00',
 												color: '#D3D3D3',
-						description: 'Reservé par Bond J.'
+						description: 'Reservé par  '
 											},
 																				{
 						title: 'Legolas L.',
@@ -186,7 +186,7 @@ html = '''
 '''
 
 calendar_entries_dict = {
-    "2024-06-03T18:00:00": "Bond J.,Legolas L.,Gimli G.,Aragorn A.",
+    "2024-06-03T18:00:00": "EMPTY,Legolas L.,Gimli G.,Aragorn A.",
     "2024-06-03T19:00:00": "Gandalf G.,FREE,Sam S.,FREE",
     "2024-06-03T20:00:00": "Frodo F.,FREE,CANCELLED,CANCELLED",
 }

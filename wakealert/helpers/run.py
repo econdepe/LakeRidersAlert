@@ -35,20 +35,16 @@ def run_once(session=None):
     return browser_session
 
 
-"""
-    Polling should be run only between 7am and midnight
-"""
-
-
-def run_once_conditionally(browser=None):
+# Polling should be run only between 7am and midnight
+def run_once_conditionally(session=None):
     now = datetime.now(ZoneInfo("Europe/Zurich"))
     if now.hour >= 7:
-        return run_once(browser)
+        return run_once(session)
     else:
-        return browser
+        return session
 
 
 def run_in_loop():
-    browser = run_once_conditionally()
+    browser_session = run_once_conditionally()
     while True:
-        run_once_conditionally(browser)
+        run_once_conditionally(browser_session)

@@ -10,6 +10,7 @@ CALENDAR_PAGE = "https://lakeridersclub.ch/membres/reservations.php"
 def create_browser_session():
     session = Session()
     session.get(HOME_PAGE)
+    return session
 
 
 def get_session_authorized(session):
