@@ -43,13 +43,13 @@ def run_once(browser=None):
 
 
 """
-    Polling should be run only between 7am and midnight during weekdays
+    Polling should be run only between 7am and midnight
 """
 
 
 def run_once_conditionally(browser=None):
     now = datetime.now(ZoneInfo("Europe/Zurich"))
-    if now.hour >= 7 and now.weekday() < 5:
+    if now.hour >= 7:
         return run_once(browser)
     else:
         return browser
