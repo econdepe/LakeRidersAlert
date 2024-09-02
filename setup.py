@@ -10,7 +10,7 @@ setup(
     ],
     entry_points={
         "console_scripts": [
-            "wakealert = wakealert.main:cli",
+            "wakealert = src.main:cli",
         ],
     },
 )

@@ -1,4 +1,4 @@
-html = '''
+html = """
 <!DOCTYPE html>
 <html>
 	<head>
@@ -183,7 +183,7 @@ html = '''
 			
 	</body>
 </html>						
-'''
+"""
 
 calendar_entries_dict = {
     "2024-06-03T18:00:00": "EMPTY,Legolas L.,Gimli G.,Aragorn A.",

@@ -10,6 +10,7 @@ class TestExtractCalendarEntries(TestCase):
     def test_extract_calendar_entries_all_cases(self):
         self.assertEqual(extract_calendar_entries(test_html), test_calendar_entries)
 
+
 class TestCountSlotsAvailable(TestCase):
     def test_count_one_when_full(self):
         new_members = "Agatha C.,William T.,Robin H.,FREE"
