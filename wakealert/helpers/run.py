@@ -42,7 +42,6 @@ def run_once(email, password, token, chat_id, session=None, retries=0):
         notify_to_telegram(available_slots=slots, token=token, chat_id=chat_id)
     write_calendar_entries_to_db(calendar_entries)
 
-    sleep(POLLING_INTERVAL)
     return browser_session
 
 
@@ -65,6 +64,7 @@ def run_in_loop(email, password, token, chat_id):
     browser_session = run_once_conditionally(
         email=email, password=password, token=token, chat_id=chat_id
     )
+    sleep(POLLING_INTERVAL)
     while True:
         run_once_conditionally(
             session=browser_session,
@@ -73,3 +73,4 @@ def run_in_loop(email, password, token, chat_id):
             token=token,
             chat_id=chat_id,
         )
+        sleep(POLLING_INTERVAL)
