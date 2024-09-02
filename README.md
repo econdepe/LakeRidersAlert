@@ -22,30 +22,23 @@ curl https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 The chat id is available in the response.
 
-You have to make the secrets available as env variables. One possibility is to write an .env file
+## RUNNING WAKE ALERT
+
+From the root directory:
+```
+python -m wakealert
+```
+Unless you have defined your secrets as environment variables, you will be prompted to enter the secrets mentioned in the prerequisites section above.
+
+If you want to use the env variables approach, define the secrets as
 ```
 export LOGIN_EMAIL=<YOUR_LOGIN_EMAIL>
 export LOGIN_PASSWORD=<YOUR_LOGIN_PASSWORD>
 export BOT_TOKEN=<YOUR_BOT_TOKEN>
 export CHAT_ID=<YOUR_CHAT_ID>
 ```
-and then run
-```
-source .env
-```
+Also, if you want WakeAlert to print log messages in the console, set the environment variable `RUN_WITH_LOGS` to a truthy value before starting the script.
 
-## RUNNING WAKE ALERT
-
-From the root directory:
-```
-python main.py
-```
-Or you can run the executable in `/bin`
-```
-./bin/launch_wakealert.sh
-```
-
-If you want Wake Alert to print messages in the console, set the environment variable `RUN_WITH_LOGS` to a truthy value before starting the script.
 
 ## RUNNING TESTS
 

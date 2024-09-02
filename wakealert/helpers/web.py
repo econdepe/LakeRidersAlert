@@ -2,7 +2,7 @@ from datetime import datetime
 
 from requests import Session
 
-from ..constants import LOGIN_EMAIL, LOGIN_PASSWORD, RUN_WITH_LOGS
+from ..constants import RUN_WITH_LOGS
 
 HOME_PAGE = "https://lakeridersclub.ch/index.php"
 AUTHENTICATION_PAGE = "https://lakeridersclub.ch/membres/connexion.php"
@@ -17,15 +17,15 @@ def create_browser_session():
     return session
 
 
-def get_session_authorized(session):
+def get_session_authorized(session, email, password):
     if RUN_WITH_LOGS:
         print("Authenticating")
 
     session.post(
         url=AUTHENTICATION_PAGE,
         data={
-            "adresse_electronique": LOGIN_EMAIL,
-            "mot_de_passe": LOGIN_PASSWORD,
+            "adresse_electronique": email,
+            "mot_de_passe": password,
             "rester_connecte": 1,
             "action": "se_connecter",
         },
@@ -40,12 +40,14 @@ def _print_crawling_log():
         print(f"{'-'*len(message)}\n{message}\n...\n..\n.")
 
 
-def get_reservations_html(session):
+def get_reservations_html(session, email, password):
     response = session.get(CALENDAR_PAGE)
     if response.url == HOME_PAGE:
         # The session is not authenticated. Re-authenticate
-        get_session_authorized(session)
+        get_session_authorized(session=session, email=email, password=password)
         authenticated_response = session.get(CALENDAR_PAGE)
+        if authenticated_response.url == HOME_PAGE:
+            raise Exception("Invalid credentials")
         _print_crawling_log()
         return authenticated_response.text
     else:
