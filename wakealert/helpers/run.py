@@ -51,4 +51,10 @@ def run_in_loop(email, password, token, chat_id):
         email=email, password=password, token=token, chat_id=chat_id
     )
     while True:
-        run_once_conditionally(session=browser_session, email=email, password=password)
+        run_once_conditionally(
+            session=browser_session,
+            email=email,
+            password=password,
+            token=token,
+            chat_id=chat_id,
+        )
