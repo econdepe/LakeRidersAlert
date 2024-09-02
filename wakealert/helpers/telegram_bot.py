@@ -2,15 +2,12 @@ from datetime import datetime
 
 import requests
 
-from ..constants import BOT_TOKEN as token, CHAT_ID as chat_id
-
-"""
-    Sort slots dictionary ({ datetime: count }) by weekday and time.
-    Format them as [number_of_weeks_ahead, weekday, time, count]
-"""
-
 
 def sort_and_format_slots(slots, now=None):
+    """
+    Sort slots dictionary ({ datetime: count }) by weekday and time.
+    Format them as [number_of_weeks_ahead, weekday, time, count]
+    """
     sorted_datetimes = sorted(
         [(datetime.fromisoformat(dt), count) for dt, count in slots.items()],
         key=lambda x: x[0].timestamp(),
@@ -37,7 +34,7 @@ def _format_week_text(n):
         return "next week"
 
 
-def notify_to_telegram(available_slots):
+def notify_to_telegram(available_slots, token, chat_id):
     text = "*** NEW SLOTS AVAILABLE! ***"
 
     # Format slot info as [weekday, time, count]. Sort slots by weekday and time
