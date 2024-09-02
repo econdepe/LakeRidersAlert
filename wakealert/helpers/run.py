@@ -2,7 +2,7 @@ from datetime import datetime
 from time import sleep
 from zoneinfo import ZoneInfo
 
-from ..constants import POLLING_INTERVAL
+from ..constants import POLLING_INTERVAL, RUN_WITH_LOGS
 from ..helpers.web import (
     create_browser_session,
     get_reservations_html,
@@ -15,11 +15,26 @@ from ..helpers.calendar_entries import (
 from ..helpers.telegram_bot import notify_to_telegram
 
 
-def run_once(email, password, token, chat_id, session=None):
+def run_once(email, password, token, chat_id, session=None, retries=0):
+    if retries > 0:
+        if RUN_WITH_LOGS:
+            print(f"Sleep {2**retries} seconds before retrying")
+        sleep(2**retries)
     browser_session = create_browser_session() if session is None else session
-    html = get_reservations_html(
-        session=browser_session, email=email, password=password
-    )
+    try:
+        html = get_reservations_html(
+            session=browser_session, email=email, password=password
+        )
+    except Exception:
+        # Crete new browser session when retrying to avoid RemoteDisconnected errors
+        return run_once(
+            email=email,
+            password=password,
+            token=token,
+            chat_id=chat_id,
+            session=None,
+            retries=retries + 1,
+        )
 
     calendar_entries = extract_calendar_entries(html)
     slots = find_available_slots(calendar_entries)

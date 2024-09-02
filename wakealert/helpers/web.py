@@ -2,7 +2,7 @@ from datetime import datetime
 
 from requests import Session
 
-from ..constants import RUN_WITH_LOGS
+from ..constants import RUN_WITH_LOGS, TIMEOUT_GET_REQUEST
 
 HOME_PAGE = "https://lakeridersclub.ch/index.php"
 AUTHENTICATION_PAGE = "https://lakeridersclub.ch/membres/connexion.php"
@@ -41,11 +41,11 @@ def _print_crawling_log():
 
 
 def get_reservations_html(session, email, password):
-    response = session.get(CALENDAR_PAGE)
+    response = session.get(CALENDAR_PAGE, timeout=TIMEOUT_GET_REQUEST)
     if response.url == HOME_PAGE:
         # The session is not authenticated. Re-authenticate
         get_session_authorized(session=session, email=email, password=password)
-        authenticated_response = session.get(CALENDAR_PAGE)
+        authenticated_response = session.get(CALENDAR_PAGE, timeout=TIMEOUT_GET_REQUEST)
         if authenticated_response.url == HOME_PAGE:
             raise Exception("Invalid credentials")
         _print_crawling_log()
