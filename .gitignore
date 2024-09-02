@@ -1,6 +1,6 @@
 .venv/
 **/__pycache__/
-wakealert/test/html/
+*.egg-info/
 
 .env
 internal_notes.txt
