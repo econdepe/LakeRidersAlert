@@ -30,8 +30,10 @@ def _format_n_slots_text(n):
 def _format_week_text(n):
     if n == 0:
         return "this week"
-    else:
+    elif n == 1:
         return "next week"
+    else:
+        return f"in {n} weeks"
 
 
 def notify_to_telegram(available_slots, token, chat_id):
