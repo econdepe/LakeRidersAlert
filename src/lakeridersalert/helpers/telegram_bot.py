@@ -46,7 +46,10 @@ def notify_to_telegram(available_slots, token, chat_id):
     for [plus_week, day, time, count] in formatted_slots:
         text += f"\n{_format_n_slots_text(count)} available at {time} on {day} {_format_week_text(plus_week)}"
 
-    requests.post(
+    response = requests.post(
         url=f"https://api.telegram.org/bot{token}/sendMessage",
         data={"chat_id": chat_id, "text": text},
     )
+
+    if response.status_code == 404:
+        raise Exception("Wrong bot token or chat ID")

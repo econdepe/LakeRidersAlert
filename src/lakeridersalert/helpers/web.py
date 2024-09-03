@@ -9,6 +9,10 @@ AUTHENTICATION_PAGE = "https://lakeridersclub.ch/membres/connexion.php"
 CALENDAR_PAGE = "https://lakeridersclub.ch/membres/reservations.php"
 
 
+class InvalidCredentialsError(Exception):
+    pass
+
+
 def create_browser_session():
     if RUN_WITH_LOGS:
         print("Creating browser session")
@@ -47,7 +51,7 @@ def get_reservations_html(session, email, password):
         get_session_authorized(session=session, email=email, password=password)
         authenticated_response = session.get(CALENDAR_PAGE, timeout=TIMEOUT_GET_REQUEST)
         if authenticated_response.url == HOME_PAGE:
-            raise Exception("Invalid credentials")
+            raise InvalidCredentialsError("Invalid credentials")
         _print_crawling_log()
         return authenticated_response.text
     else:

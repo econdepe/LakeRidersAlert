@@ -6,6 +6,7 @@ from ..constants import POLLING_INTERVAL, RUN_WITH_LOGS
 from ..helpers.web import (
     create_browser_session,
     get_reservations_html,
+    InvalidCredentialsError,
 )
 from ..helpers.calendar_entries import (
     extract_calendar_entries,
@@ -25,8 +26,11 @@ def run_once(email, password, token, chat_id, session=None, retries=0):
         html = get_reservations_html(
             session=browser_session, email=email, password=password
         )
-    except Exception:
-        # Crete new browser session when retrying to avoid RemoteDisconnected errors
+    # TODO: Narrow down error class
+    except Exception as e:
+        if isinstance(e, InvalidCredentialsError):
+            raise e
+        # Crete new browser session when retrying to avoid any other type of error (like RemoteDisconnected errors)
         return run_once(
             email=email,
             password=password,
