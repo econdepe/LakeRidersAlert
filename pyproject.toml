@@ -12,14 +12,14 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["ruff", "pre-commit==3.8.0", "PyYAML==6.0.2", "virtualenv==20.26.3"]
+dev = ["ruff>=0.6", "pre-commit>=3.8", "PyYAML>=6.0", "virtualenv>=20.26"]
 
 [project.urls]
 Homepage = "https://github.com/econdepe/LakeRidersAlert"
 Issues = "https://github.com/econdepe/LakeRidersAlert/issues"
 
 [project.scripts]
-launch = "lakeriders.main:cli"
+launch = "lakeridersalert.main:cli"
 
 [build-system]
 requires = ["setuptools>=61.0"]
