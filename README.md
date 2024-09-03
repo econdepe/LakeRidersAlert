@@ -1,4 +1,4 @@
-# LAKE RIDERS ALERT
+# LAKERIDERS ALERT
 
 
 ## DESCRIPTION
@@ -26,9 +26,14 @@ The chat id is available in the response.
 
 From the root directory:
 ```
-python -m lakeridersalert
+pip install -e .
+launch
 ```
-Unless you have defined your secrets as environment variables, you will be prompted to enter the secrets mentioned in the prerequisites section above.
+The first step installs the required dependencies and creates the `launch` script as well. You can also run the script as `python -m lakeridersalert`.
+
+### ENTERING YOUR SECRETS
+
+Unless you have defined your secrets as environment variables, when launching LakeRiders Alert you will be prompted to enter the secrets mentioned in the prerequisites section above.
 
 If you want to use the env variables approach, define the secrets as
 ```
