@@ -1,4 +1,4 @@
-# WAKE ALERT
+# LAKE RIDERS ALERT
 
 
 ## DESCRIPTION
@@ -22,11 +22,11 @@ curl https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
 ```
 The chat id is available in the response.
 
-## RUNNING WAKE ALERT
+## RUNNING LAKE RIDERS ALERT
 
 From the root directory:
 ```
-python -m wakealert
+python -m lakeridersalert
 ```
 Unless you have defined your secrets as environment variables, you will be prompted to enter the secrets mentioned in the prerequisites section above.
 
@@ -37,7 +37,7 @@ export LOGIN_PASSWORD=<YOUR_LOGIN_PASSWORD>
 export BOT_TOKEN=<YOUR_BOT_TOKEN>
 export CHAT_ID=<YOUR_CHAT_ID>
 ```
-Also, if you want WakeAlert to print log messages in the console, set the environment variable `RUN_WITH_LOGS` to a truthy value before starting the script.
+Also, if you want LakeRidersAlert to print log messages in the console, set the environment variable `RUN_WITH_LOGS` to a truthy value before starting the script.
 
 
 ## RUNNING TESTS
