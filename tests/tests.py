@@ -1,8 +1,8 @@
 from unittest import TestCase
 from datetime import datetime
 
-from ..helpers.calendar_entries import extract_calendar_entries, count_slots_available
-from ..helpers.telegram_bot import sort_and_format_slots
+from lakeridersalert.helpers.calendar_entries import extract_calendar_entries, count_slots_available
+from lakeridersalert.helpers.telegram_bot import sort_and_format_slots
 from .test_data import html as test_html, calendar_entries_dict as test_calendar_entries
 
 

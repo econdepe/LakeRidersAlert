@@ -1,6 +1,6 @@
-from .helpers.run import run_in_loop
-
 import click
+
+from .helpers.run import run_in_loop
 
 
 @click.command()
