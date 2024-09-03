@@ -27,9 +27,9 @@ The chat id is available in the response.
 From the root directory:
 ```
 pip install -e .
-launch
+lakeridersalert
 ```
-The first step installs the required dependencies and creates the `launch` script as well. You can also run the script as `python -m lakeridersalert`.
+The first step installs the required dependencies and creates the `lakeridersalert` comman that launches the script.
 
 ### ENTERING YOUR SECRETS
 

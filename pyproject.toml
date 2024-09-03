@@ -19,7 +19,7 @@ Homepage = "https://github.com/econdepe/LakeRidersAlert"
 Issues = "https://github.com/econdepe/LakeRidersAlert/issues"
 
 [project.scripts]
-launch = "lakeridersalert.main:cli"
+lakeridersalert = "lakeridersalert.main:cli"
 
 [build-system]
 requires = ["setuptools>=61.0"]
