@@ -12,7 +12,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-dev = ["ruff>=0.6", "pre-commit>=3.8", "PyYAML>=6.0", "virtualenv>=20.26"]
+dev = ["ruff>=0.6", "pre-commit>=3.8", "PyYAML>=6.0"]
 
 [project.urls]
 Homepage = "https://github.com/econdepe/LakeRidersAlert"
