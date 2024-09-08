@@ -24,14 +24,26 @@ The chat id is available in the response.
 
 ## RUNNING LAKE RIDERS ALERT
 
+### From PyPI
+
+LakeRiders Alert is published as a PyPI package at https://pypi.org/project/lakeriders-alert/
+```
+pip install lakeriders-alert
+
+lakeridersalert
+```
+
+### From this repo
+
 From the root directory:
 ```
 pip install -e .
+
 lakeridersalert
 ```
 The first step installs the required dependencies and creates the `lakeridersalert` comman that launches the script.
 
-### ENTERING YOUR SECRETS
+### Entering your secrets
 
 Unless you have defined your secrets as environment variables, when launching LakeRiders Alert you will be prompted to enter the secrets mentioned in the prerequisites section above.
 
